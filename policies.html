@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Policies — Horsan Brokers Company</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="shortcut icon" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&family=Barlow+Condensed:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #111d35;
+      --navy-mid:   #1a2a47;
+      --navy-light: #243352;
+      --green:      #5cc96e;
+      --green-dark: #3fa850;
+      --white:      #ffffff;
+      --off-white:  #f0f2f5;
+      --muted:      #8a96a8;
+      --border:     rgba(255,255,255,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 60px;
+      height: 72px;
+      background: rgba(17, 29, 53, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-text {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      color: var(--white);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .logo-text span { color: var(--green); }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--white); }
+
+    .nav-links a.active { color: var(--green); }
+
+    .nav-cta {
+      background: var(--green);
+      color: var(--navy) !important;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-weight: 600 !important;
+    }
+
+    .nav-cta:hover { background: var(--green-dark); color: var(--white) !important; }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 140px 60px 80px;
+      background: var(--navy-mid);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 480px; height: 480px;
+      background: radial-gradient(circle, rgba(92,201,110,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .page-header-inner {
+      max-width: 860px;
+      position: relative;
+    }
+
+    .section-tag {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--green);
+      border: 1px solid rgba(92,201,110,0.3);
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .page-title {
+      font-family: 'Barlow', sans-serif;
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+
+    .page-subtitle {
+      font-size: 17px;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+      max-width: 560px;
+    }
+
+    /* ── MAIN CONTENT ── */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 60px 100px;
+    }
+
+    /* ── POLICIES GRID ── */
+    .policies-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 22px;
+    }
+
+    .policy-card {
+      background: var(--navy-light);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+
+    .policy-card:hover {
+      border-color: rgba(92,201,110,0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+    }
+
+    .policy-icon {
+      width: 48px; height: 48px;
+      background: rgba(92,201,110,0.1);
+      border: 1px solid rgba(92,201,110,0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .policy-icon svg {
+      width: 22px; height: 22px;
+      stroke: var(--green);
+      fill: none;
+      stroke-width: 1.8;
+    }
+
+    .policy-card h3 {
+      font-family: 'Barlow', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .policy-card p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .policy-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(92,201,110,0.1);
+      border: 1px solid rgba(92,201,110,0.25);
+      color: var(--green);
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      width: fit-content;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      margin-top: 4px;
+    }
+
+    .policy-download:hover {
+      background: rgba(92,201,110,0.2);
+      border-color: rgba(92,201,110,0.5);
+      transform: translateY(-1px);
+    }
+
+    .policy-download svg {
+      width: 14px; height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.2;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0c1526;
+      padding: 40px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+
+    .footer-copy { font-size: 13px; color: var(--muted); }
+
+    .footer-links { display: flex; gap: 24px; }
+
+    .footer-links a {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--white); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .page-header { padding: 110px 24px 60px; }
+      main { padding: 50px 24px 80px; }
+      footer { flex-direction: column; gap: 20px; text-align: center; padding: 32px 24px; }
+      .policies-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <span class="logo-text">Horsan <span>Brokers</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About Us</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#team">Team</a></li>
+    <li><a href="index.html#regions">Regions</a></li>
+    <li><a href="policies.html" class="active">Policies</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Contact Us</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="section-tag">Internal Documents</div>
+    <h1 class="page-title">Company Policies</h1>
+    <p class="page-subtitle">Internal policy documentation for Horsan Brokers Company SL personnel. Download the relevant document below.</p>
+  </div>
+</div>
+
+<!-- POLICIES GRID -->
+<main>
+  <div class="policies-grid">
+
+    <!-- 1 -->
+    <div class="policy-card">
+      <div class="policy-icon">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </div>
+      <h3>Code of Conduct</h3>
+      <p>Standards of professional behaviour and ethical conduct expected from all Horsan Brokers personnel.</p>
+      <a class="policy-download" href="policies/code-of-conduct.pdf" download>
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download PDF
+      </a>
+    </div>
+
+    <!-- 2 -->
+    <div class="policy-card">
+      <div class="policy-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <h3>Anti-Corruption &amp; Anti-Bribery Policy</h3>
+      <p>Our zero-tolerance approach to bribery, corruption, facilitation payments and improper conduct.</p>
+      <a class="policy-download" href="policies/anti-bribery.pdf" download>
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download PDF
+      </a>
+    </div>
+
+    <!-- 3 -->
+    <div class="policy-card">
+      <div class="policy-icon">
+        <svg viewBox="0 0 24 24"><path d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0"/></svg>
+      </div>
+      <h3>Whistleblowing Policy</h3>
+      <p>Procedures for reporting concerns about misconduct, fraud or unethical behaviour in good faith.</p>
+      <a class="policy-download" href="policies/whistleblowing.pdf" download>
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download PDF
+      </a>
+    </div>
+
+    <!-- 4 -->
+    <div class="policy-card">
+      <div class="policy-icon">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h3>Third-Party Due Diligence Policy</h3>
+      <p>Framework for verifying and assessing agents, intermediaries and other third parties before engagement.</p>
+      <a class="policy-download" href="policies/third-party-due-diligence.pdf" download>
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download PDF
+      </a>
+    </div>
+
+    <!-- 5 -->
+    <div class="policy-card">
+      <div class="policy-icon">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <h3>Background Check Policy</h3>
+      <p>Procedures for conducting pre-employment and periodic screening of personnel, directors and key partners.</p>
+      <a class="policy-download" href="policies/background-check.pdf" download>
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download PDF
+      </a>
+    </div>
+
+    <!-- 6 -->
+    <div class="policy-card">
+      <div class="policy-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <h3>KYC &amp; Counterparty Due Diligence Policy</h3>
+      <p>Know Your Counterparty procedures and AML/CFT compliance requirements for all trading relationships.</p>
+      <a class="policy-download" href="policies/kyc-counterparty.pdf" download>
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download PDF
+      </a>
+    </div>
+
+    <!-- 7 -->
+    <div class="policy-card">
+      <div class="policy-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <h3>Responsible Sourcing &amp; Supplier Policy</h3>
+      <p>Criteria and procedures for the selection and monitoring of suppliers against ESG and ethics standards.</p>
+      <a class="policy-download" href="policies/responsible-sourcing.pdf" download>
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download PDF
+      </a>
+    </div>
+
+    <!-- 8 -->
+    <div class="policy-card">
+      <div class="policy-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <h3>ESG &amp; Sustainability Policy</h3>
+      <p>Our environmental, social and governance commitments and framework for responsible business conduct.</p>
+      <a class="policy-download" href="policies/esg-sustainability.pdf" download>
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download PDF
+      </a>
+    </div>
+
+    <!-- 9 -->
+    <div class="policy-card">
+      <div class="policy-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </div>
+      <h3>High-Risk Jurisdictions Policy</h3>
+      <p>Framework for identifying and managing transactions involving high-risk or sanctioned jurisdictions.</p>
+      <a class="policy-download" href="policies/high-risk-jurisdictions.pdf" download>
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download PDF
+      </a>
+    </div>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" class="footer-logo">
+    <span style="font-family:'Barlow',sans-serif;font-weight:700;font-size:16px;color:white;letter-spacing:-0.3px;">Horsan <span style="color:var(--green);">Brokers</span></span>
+  </a>
+  <span class="footer-copy">© 2025 Horsan Brokers Company SL. All rights reserved.</span>
+  <div class="footer-links">
+    <a href="index.html#about">About</a>
+    <a href="index.html#services">Services</a>
+    <a href="policies.html">Policies</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu
+  const hamburger = document.getElementById('hamburger');
+  const navLinks  = document.querySelector('.nav-links');
+  hamburger.addEventListener('click', () => {
+    const open = navLinks.style.display === 'flex';
+    navLinks.style.display        = open ? 'none' : 'flex';
+    navLinks.style.flexDirection  = 'column';
+    navLinks.style.position       = 'absolute';
+    navLinks.style.top            = '72px';
+    navLinks.style.left           = '0';
+    navLinks.style.right          = '0';
+    navLinks.style.background     = '#111d35';
+    navLinks.style.padding        = '20px 24px';
+    navLinks.style.borderBottom   = '1px solid rgba(255,255,255,0.08)';
+  });
+</script>
+</body>
+</html>
