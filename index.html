@@ -1627,6 +1627,12 @@
     }
   };
 
+  // A refresh always starts at the hero: disable the browser's automatic
+  // scroll restoration (which would drop the user back mid-page) and reset
+  // to the top. Deep links with a #hash are still honoured below.
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if (!location.hash) window.scrollTo(0, 0);
+
   // Respect a hash already in the URL when the page first loads
   if (location.hash) {
     const initialTarget = document.querySelector(location.hash);
