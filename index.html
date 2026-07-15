@@ -730,6 +730,8 @@
       object-fit: cover;
       object-position: center top;
       display: block;
+      /* Uniform editorial b/w treatment regardless of the source photo */
+      filter: grayscale(1);
       transition: transform 0.6s var(--ds-ease);
     }
 
