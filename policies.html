@@ -8,32 +8,40 @@
   <link rel="shortcut icon" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&family=Barlow+Condensed:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* Design-system tokens — mirror of index.html; keep both in sync */
     :root {
-      --navy:       #111d35;
-      --navy-mid:   #1a2a47;
-      --navy-light: #243352;
-      --green:      #5cc96e;
-      --green-dark: #3fa850;
-      --white:      #ffffff;
-      --off-white:  #f0f2f5;
-      --muted:      #8a96a8;
-      --border:     rgba(255,255,255,0.08);
+      --ds-brand-navy: #192947;
+      --ds-blue: #294c8e;
+      --ds-blue-light: #7c96c8;
+      --ds-ink: #0c131f;
+      --ds-ink-mid: #141e30;
+      --ds-navy-deep: #070b13;
+      --ds-white: #ffffff;
+      --ds-line: rgba(255,255,255,0.14);
+      --ds-text-muted: rgba(255,255,255,0.70);
+      --ds-text-muted-dim: rgba(255,255,255,0.55);
+
+      --ds-font-display: 'Space Grotesk', sans-serif;
+      --ds-font-body: 'Inter', sans-serif;
+
+      --ds-ease: cubic-bezier(.16,.84,.44,1);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--navy);
-      color: var(--white);
+      font-family: var(--ds-font-body);
+      background: var(--ds-ink);
+      color: var(--ds-white);
       overflow-x: hidden;
     }
 
-    /* ── NAV ── */
+    /* ── NAV — index nav in its solid state (subpage, no hero behind) ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -41,11 +49,13 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 60px;
+      padding: 0 64px;
       height: 72px;
-      background: rgba(17, 29, 53, 0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
+      background: rgba(7, 11, 19, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--ds-line);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.18);
     }
 
     .nav-logo {
@@ -55,162 +65,208 @@
       text-decoration: none;
     }
 
-    .logo-text {
-      font-family: 'Barlow', sans-serif;
-      font-weight: 700;
-      font-size: 24px;
-      color: var(--white);
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-
-    .logo-text span { color: var(--green); }
+    .nav-logo-img { height: 24px; width: auto; display: block; }
 
     .nav-links {
       display: flex;
-      gap: 36px;
+      align-items: center;
+      gap: 40px;
       list-style: none;
     }
 
     .nav-links a {
-      font-size: 14px;
+      font-family: var(--ds-font-body);
+      font-size: 12.5px;
       font-weight: 500;
-      color: rgba(255,255,255,0.65);
+      color: rgba(255,255,255,0.75);
       text-decoration: none;
-      letter-spacing: 0.5px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
       transition: color 0.2s;
+      position: relative;
+      padding-bottom: 4px;
     }
 
-    .nav-links a:hover,
-    .nav-links a.active { color: var(--white); }
-
-    .nav-links a.active { color: var(--green); }
-
-    .nav-cta {
-      background: var(--green);
-      color: var(--navy) !important;
-      padding: 8px 20px;
-      border-radius: 6px;
-      font-weight: 600 !important;
+    .nav-links a:not(.nav-cta)::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 0;
+      height: 1px;
+      background: var(--ds-blue-light);
+      transition: width 0.3s var(--ds-ease);
     }
 
-    .nav-cta:hover { background: var(--green-dark); color: var(--white) !important; }
+    .nav-links a:hover { color: var(--ds-white); }
+    .nav-links a:not(.nav-cta):hover::after { width: 100%; }
+
+    .nav-links a.active { color: var(--ds-white); }
+    .nav-links a.active:not(.nav-cta)::after { width: 100%; }
+
+    .nav-links a.nav-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      background: var(--ds-blue);
+      color: var(--ds-white) !important;
+      padding: 11px 26px;
+      border-radius: 999px;
+      font-weight: 500 !important;
+      line-height: 1;
+      transition: background-color 0.35s var(--ds-ease),
+                  box-shadow 0.35s var(--ds-ease),
+                  transform 0.35s var(--ds-ease);
+    }
+
+    .nav-links a.nav-cta::after {
+      content: '→';
+      font-family: var(--ds-font-body);
+      font-size: 13px;
+      line-height: 1;
+      transition: transform 0.35s var(--ds-ease);
+    }
+
+    .nav-links a.nav-cta:hover {
+      background: #33599f;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(25,41,71,0.35);
+    }
+
+    .nav-links a.nav-cta:hover::after { transform: translateX(3px); }
 
     .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
-    .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--ds-white); border-radius: 2px; transition: 0.3s; }
 
     /* ── PAGE HEADER ── */
     .page-header {
-      padding: 140px 60px 80px;
-      background: var(--navy-mid);
-      border-bottom: 1px solid var(--border);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .page-header::before {
-      content: '';
-      position: absolute;
-      top: -120px; right: -120px;
-      width: 480px; height: 480px;
-      background: radial-gradient(circle, rgba(92,201,110,0.07) 0%, transparent 70%);
-      pointer-events: none;
+      background: var(--ds-ink-mid);
+      border-bottom: 1px solid var(--ds-line);
+      padding: 192px 60px 80px;
     }
 
     .page-header-inner {
-      max-width: 860px;
-      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     .section-tag {
-      display: inline-block;
-      font-family: 'Barlow Condensed', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--ds-font-body);
       font-size: 12px;
       font-weight: 600;
-      letter-spacing: 2px;
+      letter-spacing: 2.5px;
       text-transform: uppercase;
-      color: var(--green);
-      border: 1px solid rgba(92,201,110,0.3);
-      padding: 5px 14px;
-      border-radius: 20px;
-      margin-bottom: 20px;
-    }
-
-    .page-title {
-      font-family: 'Barlow', sans-serif;
-      font-size: clamp(36px, 5vw, 56px);
-      font-weight: 800;
-      line-height: 1.1;
+      color: var(--ds-blue-light);
       margin-bottom: 18px;
     }
 
+    .section-tag::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--ds-blue-light);
+      opacity: 0.6;
+    }
+
+    .page-title {
+      font-family: var(--ds-font-display);
+      font-size: clamp(30px, 3.6vw, 50px);
+      font-weight: 500;
+      letter-spacing: -1px;
+      line-height: 1.12;
+      color: var(--ds-white);
+      margin-bottom: 20px;
+    }
+
     .page-subtitle {
+      font-family: var(--ds-font-body);
       font-size: 17px;
-      color: rgba(255,255,255,0.55);
-      line-height: 1.6;
+      font-weight: 300;
+      color: var(--ds-text-muted);
       max-width: 560px;
+      line-height: 1.7;
     }
 
     /* ── MAIN CONTENT ── */
     main {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 80px 60px 100px;
+      padding: 80px 60px 120px;
     }
 
-    /* ── POLICIES GRID ── */
+    /* ── POLICIES GRID — same card criterion as index Services ── */
     .policies-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 22px;
+      align-items: stretch;
+      gap: 24px;
     }
 
     .policy-card {
-      background: var(--navy-light);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 28px;
+      background: var(--ds-ink-mid);
+      border: 1px solid var(--ds-line);
+      border-radius: 2px;
+      padding: 34px 30px;
+      height: 100%;
       display: flex;
       flex-direction: column;
       gap: 14px;
-      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      transition: border-color 0.35s var(--ds-ease), transform 0.35s var(--ds-ease), box-shadow 0.35s var(--ds-ease);
     }
 
     .policy-card:hover {
-      border-color: rgba(92,201,110,0.4);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+      border-color: var(--ds-blue);
+      transform: translateY(-6px);
+      box-shadow: 0 24px 48px rgba(3,10,20,0.45);
     }
 
     .policy-icon {
-      width: 48px; height: 48px;
-      background: rgba(92,201,110,0.1);
-      border: 1px solid rgba(92,201,110,0.2);
-      border-radius: 10px;
+      width: 50px; height: 50px;
+      background: rgba(124,150,200,0.10);
+      border: 1px solid rgba(124,150,200,0.25);
+      border-radius: 2px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      margin-bottom: 8px;
+      transition: background 0.35s var(--ds-ease), border-color 0.35s var(--ds-ease);
+    }
+
+    .policy-card:hover .policy-icon {
+      background: var(--ds-blue);
+      border-color: var(--ds-blue);
     }
 
     .policy-icon svg {
-      width: 22px; height: 22px;
-      stroke: var(--green);
+      width: 24px; height: 24px;
+      stroke: var(--ds-blue-light);
       fill: none;
       stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke 0.35s var(--ds-ease);
     }
 
+    .policy-card:hover .policy-icon svg { stroke: var(--ds-white); }
+
     .policy-card h3 {
-      font-family: 'Barlow', sans-serif;
-      font-size: 17px;
-      font-weight: 700;
+      font-family: var(--ds-font-display);
+      font-size: 18px;
+      font-weight: 500;
       line-height: 1.3;
+      color: var(--ds-white);
     }
 
     .policy-card p {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.6;
+      font-family: var(--ds-font-body);
+      font-size: 14.5px;
+      font-weight: 300;
+      color: var(--ds-text-muted-dim);
+      line-height: 1.75;
       flex: 1;
     }
 
@@ -218,64 +274,76 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(92,201,110,0.1);
-      border: 1px solid rgba(92,201,110,0.25);
-      color: var(--green);
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
+      background: transparent;
+      border: 1px solid rgba(124,150,200,0.35);
+      color: var(--ds-blue-light);
+      padding: 10px 20px;
+      border-radius: 2px;
+      font-family: var(--ds-font-body);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
       text-decoration: none;
       width: fit-content;
-      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      transition: background 0.3s var(--ds-ease), border-color 0.3s var(--ds-ease), color 0.3s var(--ds-ease);
       margin-top: 4px;
     }
 
     .policy-download:hover {
-      background: rgba(92,201,110,0.2);
-      border-color: rgba(92,201,110,0.5);
-      transform: translateY(-1px);
+      background: rgba(124,150,200,0.08);
+      border-color: var(--ds-blue-light);
+      color: var(--ds-white);
     }
 
     .policy-download svg {
       width: 14px; height: 14px;
       stroke: currentColor;
       fill: none;
-      stroke-width: 2.2;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
-    /* ── FOOTER ── */
+    /* ── FOOTER — mirror of index ── */
     footer {
-      background: #0c1526;
-      padding: 40px 60px;
+      background: var(--ds-navy-deep);
+      padding: 44px 60px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--ds-line);
     }
 
     .footer-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 
-    .footer-copy { font-size: 13px; color: var(--muted); }
+    .footer-logo-img { height: 22px; width: auto; display: block; }
 
-    .footer-links { display: flex; gap: 24px; }
+    .footer-copy {
+      font-family: var(--ds-font-body);
+      font-size: 13px;
+      color: var(--ds-text-muted-dim);
+    }
+
+    .footer-links { display: flex; gap: 28px; }
 
     .footer-links a {
+      font-family: var(--ds-font-body);
       font-size: 13px;
-      color: var(--muted);
+      color: var(--ds-text-muted-dim);
       text-decoration: none;
       transition: color 0.2s;
     }
 
-    .footer-links a:hover { color: var(--white); }
+    .footer-links a:hover { color: var(--ds-white); }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       nav { padding: 0 24px; }
       .nav-links { display: none; }
       .hamburger { display: flex; }
-      .page-header { padding: 110px 24px 60px; }
-      main { padding: 50px 24px 80px; }
+      .page-header { padding: 160px 24px 60px; }
+      main { padding: 56px 24px 88px; }
       footer { flex-direction: column; gap: 20px; text-align: center; padding: 32px 24px; }
       .policies-grid { grid-template-columns: 1fr; }
     }
@@ -286,13 +354,14 @@
 <!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">
-    <span class="logo-text">Horsan <span>Brokers</span></span>
+    <img src="logo-white.svg" alt="Horsan Brokers" class="nav-logo-img">
   </a>
   <ul class="nav-links">
     <li><a href="index.html#about">About Us</a></li>
     <li><a href="index.html#services">Services</a></li>
     <li><a href="index.html#team">Team</a></li>
     <li><a href="index.html#regions">Regions</a></li>
+    <li><a href="index.html#compliance">Compliance</a></li>
     <li><a href="policies.html" class="active">Policies</a></li>
     <li><a href="index.html#contact" class="nav-cta">Contact Us</a></li>
   </ul>
@@ -437,7 +506,7 @@
 <!-- FOOTER -->
 <footer>
   <a href="index.html" class="footer-logo">
-    <span style="font-family:'Barlow',sans-serif;font-weight:700;font-size:16px;color:white;letter-spacing:-0.3px;">Horsan <span style="color:var(--green);">Brokers</span></span>
+    <img src="logo-white.svg" alt="Horsan Brokers" class="footer-logo-img">
   </a>
   <span class="footer-copy">© 2025 Horsan Brokers Company SL. All rights reserved.</span>
   <div class="footer-links">
@@ -460,9 +529,9 @@
     navLinks.style.top            = '72px';
     navLinks.style.left           = '0';
     navLinks.style.right          = '0';
-    navLinks.style.background     = '#111d35';
+    navLinks.style.background     = '#070b13';
     navLinks.style.padding        = '20px 24px';
-    navLinks.style.borderBottom   = '1px solid rgba(255,255,255,0.08)';
+    navLinks.style.borderBottom   = '1px solid rgba(255,255,255,0.16)';
   });
 </script>
 </body>
