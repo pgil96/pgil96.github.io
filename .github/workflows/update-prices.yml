@@ -1,0 +1,41 @@
+# Refreshes the Markets panel data (data/prices.json) every 20 minutes on
+# weekdays. The file is force-pushed as the single commit of the `data`
+# branch — never to main — so the repo history stays clean and GitHub Pages
+# is not redeployed on every tick; index.html fetches the branch through
+# raw.githubusercontent.com. The copy of data/prices.json committed on main
+# is only the first-load / fallback snapshot.
+#
+# Note: GitHub pauses scheduled workflows in repos with no activity for
+# 60 days; if the panel ever freezes, re-enable it from the Actions tab.
+name: Update market data
+
+on:
+  schedule:
+    - cron: "*/20 * * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-prices
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch latest prices
+        run: python3 scripts/update_prices.py
+
+      - name: Publish to data branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan data
+          git reset
+          git add -f data/prices.json
+          git commit -m "data: market prices $(date -u +'%Y-%m-%dT%H:%MZ')"
+          git push -f origin data

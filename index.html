@@ -176,6 +176,13 @@
 
     .nav-links a.nav-cta:hover::after { transform: translateX(3px); }
 
+    /* Between full desktop and the hamburger breakpoint the links get tight —
+       close ranks instead of wrapping to a second row. */
+    @media (max-width: 1200px) and (min-width: 901px) {
+      .nav-links { gap: 22px; }
+      .nav-links a { font-size: 11.5px; letter-spacing: 0.8px; }
+    }
+
     .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
     .hamburger span { display: block; width: 24px; height: 2px; background: var(--ds-white); border-radius: 2px; transition: 0.3s; }
 
@@ -406,7 +413,7 @@
     /* Fallback for the no-JS smooth scroll above: flush with the nav, which
        stays at its 92px transparent height when no JS runs. The JS handler
        computes the real nav height itself and ignores this. */
-    #home, #about, #services, #team, #regions, #compliance, #contact {
+    #home, #about, #services, #markets, #team, #regions, #compliance, #contact {
       scroll-margin-top: 92px;
     }
 
@@ -676,6 +683,150 @@
       font-weight: 300;
       color: var(--ds-text-muted-dim);
       line-height: 1.75;
+    }
+
+    /* ── MARKETS (design system) ── */
+    #markets {
+      background: var(--ds-ink-mid);
+      max-width: 100%;
+      padding: var(--section-top) 0 var(--ds-space-xl);
+    }
+
+    .markets-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 60px;
+    }
+
+    .markets-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      align-items: stretch;
+      gap: 24px;
+    }
+
+    .market-card {
+      background: var(--ds-navy-deep);
+      border: 1px solid var(--ds-line);
+      border-radius: 2px;
+      padding: 26px 24px 20px;
+      min-height: 262px;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.35s var(--ds-ease), transform 0.35s var(--ds-ease), box-shadow 0.35s var(--ds-ease);
+    }
+
+    .market-card:hover {
+      border-color: var(--ds-blue);
+      transform: translateY(-8px);
+      box-shadow: 0 24px 48px rgba(3,10,20,0.45);
+    }
+
+    .market-name {
+      font-family: var(--ds-font-display);
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--ds-white);
+    }
+
+    .market-meta {
+      font-family: var(--ds-font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--ds-text-muted-dim);
+      margin-top: 4px;
+      margin-bottom: 22px;
+    }
+
+    .market-price {
+      font-family: var(--ds-font-display);
+      font-size: 30px;
+      font-weight: 600;
+      color: var(--ds-white);
+      line-height: 1;
+    }
+
+    .market-change {
+      font-family: var(--ds-font-body);
+      font-size: 13px;
+      font-weight: 500;
+      margin-top: 8px;
+      min-height: 18px;
+      color: var(--ds-text-muted-dim);
+    }
+
+    .market-change.is-up { color: #4ade80; }
+    .market-change.is-down { color: #f87171; }
+
+    .market-spark-wrap {
+      position: relative;
+      margin-top: auto;
+      padding-top: 18px;
+    }
+
+    .market-spark { width: 100%; height: 64px; display: block; }
+
+    .spark-tip {
+      position: absolute;
+      bottom: calc(100% - 6px);
+      transform: translateX(-50%);
+      background: var(--ds-ink);
+      border: 1px solid var(--ds-line);
+      border-radius: 2px;
+      padding: 6px 10px;
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s var(--ds-ease);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+      z-index: 3;
+    }
+
+    .spark-tip.is-visible { opacity: 1; }
+
+    .spark-tip-date { font-family: var(--ds-font-body); font-size: 11px; color: var(--ds-text-muted-dim); }
+    .spark-tip-val { font-family: var(--ds-font-body); font-size: 12.5px; font-weight: 600; color: var(--ds-white); }
+
+    /* TradingView-embedded cards (ICE-licensed products) */
+    .market-tv {
+      flex: 1 1 auto;
+      min-height: 176px;
+      margin: 0 -10px;   /* widget has internal padding; pull to optical edge */
+    }
+
+    .market-tv .tradingview-widget-container__widget { height: 100%; }
+
+    .tradingview-widget-copyright {
+      font-family: var(--ds-font-body);
+      font-size: 10.5px;
+      text-align: right;
+      margin-top: 6px;
+    }
+
+    .tradingview-widget-copyright a { color: var(--ds-text-muted-dim); text-decoration: none; }
+    .tradingview-widget-copyright a:hover { color: var(--ds-blue-light); }
+
+    .markets-note {
+      font-family: var(--ds-font-body);
+      font-size: 12.5px;
+      font-weight: 300;
+      color: var(--ds-text-muted-dim);
+      line-height: 1.7;
+      max-width: 760px;
+      margin-top: 32px;
+    }
+
+    @media (max-width: 1100px) {
+      .markets-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 560px) {
+      .markets-grid { grid-template-columns: 1fr; }
     }
 
     /* ── TEAM (design system) ── */
@@ -1129,13 +1280,13 @@
 
       section, #regions, footer { padding-left: 24px; padding-right: 24px; }
       section, #regions { padding-bottom: 72px; }
-      #about, #team, #contact { padding-bottom: 72px; }
-      #home, #about, #services, #team, #regions, #compliance, #contact { scroll-margin-top: 72px; }
+      #about, #markets, #team, #contact { padding-bottom: 72px; }
+      #home, #about, #services, #markets, #team, #regions, #compliance, #contact { scroll-margin-top: 72px; }
       .hero-content { padding: 0 24px; padding-top: 100px; }
       .scroll-indicator { right: 24px; bottom: 24px; }
       .scroll-indicator-label { display: none; }
       .scroll-indicator-line { height: 28px; }
-      .about-inner, .contact-inner, .team-inner { padding: 0 24px; }
+      .about-inner, .contact-inner, .team-inner, .markets-inner { padding: 0 24px; }
       .team-inner { padding: 0 24px; }
 
       .about-inner { grid-template-columns: 1fr; gap: 60px; }
@@ -1181,11 +1332,10 @@
   </a>
   <ul class="nav-links">
     <li><a href="#about">About Us</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#team">Team</a></li>
-    <li><a href="#regions">Regions</a></li>
+    <li><a href="#services">Trading</a></li>
+    <li><a href="#markets">Markets</a></li>
+    <li><a href="#regions">Global Reach</a></li>
     <li><a href="#compliance">Compliance</a></li>
-    <li><a href="policies.html">Policies</a></li>
     <li><a href="#contact" class="nav-cta">Contact Us</a></li>
   </ul>
   <div class="hamburger" id="hamburger">
@@ -1259,9 +1409,9 @@
 <!-- SERVICES -->
 <div class="full-divider"></div>
 <section id="services">
-  <div class="section-tag ds-reveal ds-d1"><span class="section-num">02</span>What We Do</div>
-  <h2 class="ds-reveal ds-d2">Our Services</h2>
-  <p class="section-intro ds-reveal ds-d3">We move petroleum commodities efficiently between counterparties across the globe.</p>
+  <div class="section-tag ds-reveal ds-d1"><span class="section-num">02</span>Trading</div>
+  <h2 class="ds-reveal ds-d2">What we trade</h2>
+  <p class="section-intro ds-reveal ds-d3">We trade crude oil, refined products and coal across global markets, dealing directly with producers, refiners and end-buyers.</p>
   <div class="services-grid ds-reveal-group">
     <div class="service-card ds-reveal">
       <div class="service-icon">
@@ -1270,7 +1420,7 @@
         </svg>
       </div>
       <h3>Crude Oil Trading</h3>
-      <p>Connecting crude oil suppliers with refineries and trading companies. We handle term contracts and spot trades across multiple grades and origins.</p>
+      <p>We trade crude oil across multiple grades and origins — term contracts and spot cargoes with producers, refineries and trading counterparties.</p>
     </div>
     <div class="service-card ds-reveal">
       <div class="service-icon">
@@ -1279,7 +1429,7 @@
         </svg>
       </div>
       <h3>Refined Products</h3>
-      <p>Gasoline, diesel, jet fuel, fuel oil, naphtha and more. We source and match refined product flows to meet your procurement or offtake needs.</p>
+      <p>Gasoline, diesel, jet fuel, fuel oil, naphtha and more. We buy and sell refined products to meet our counterparties' procurement and offtake needs.</p>
     </div>
     <div class="service-card ds-reveal">
       <div class="service-icon">
@@ -1288,7 +1438,7 @@
         </svg>
       </div>
       <h3>International Trade</h3>
-      <p>We originate deals, support contract negotiation, and oversee smooth cargo execution between counterparties across international markets.</p>
+      <p>We structure and execute international transactions end to end — negotiation, contracting and cargo delivery across global markets.</p>
     </div>
     <div class="service-card ds-reveal">
       <div class="service-icon">
@@ -1297,42 +1447,101 @@
         </svg>
       </div>
       <h3>Coal Trading</h3>
-      <p>Expanding our offering with a coal trading line of Nigerian origin, connecting producers with international buyers across global markets.</p>
+      <p>Expanding our trading book with coal of Nigerian origin, supplying industrial consumers and international buyers worldwide.</p>
     </div>
   </div>
 </section>
 
-<!-- TEAM -->
+<!-- MARKETS — Brent & WTI cards are rendered from data/prices.json (refreshed
+     every 20 min by .github/workflows/update-prices.yml); Gasoil & Coal are
+     ICE-licensed products with no free data feed, so those two cards embed
+     TradingView's mini widget themed to match. -->
 <div class="full-divider"></div>
-<div id="team">
-  <div class="team-inner">
-    <div class="section-tag ds-reveal ds-d1"><span class="section-num">03</span>Our Team</div>
-    <h2 class="ds-reveal ds-d2">The people behind Horsan Brokers</h2>
-    <div class="team-grid ds-reveal-group">
+<div id="markets">
+  <div class="markets-inner">
+  <div class="section-tag ds-reveal ds-d1"><span class="section-num">03</span>Markets</div>
+  <h2 class="ds-reveal ds-d2">Benchmark prices</h2>
+  <p class="section-intro ds-reveal ds-d3">Delayed reference prices for the benchmarks behind the products we trade — crude oil, middle distillates and coal.</p>
+  <div class="markets-grid ds-reveal-group">
 
-      <div class="team-card ds-reveal">
-        <div class="team-photo ds-reveal ds-clip-reveal ds-grain">
-          <img src="team-javier-sanchez.jpg" alt="Javier Sánchez" loading="lazy" decoding="async" onerror="this.remove()">
-        </div>
-        <div class="team-info">
-          <div class="team-name">Javier Sánchez</div>
-          <div class="team-role">Co-Founder & CEO</div>
-          <p class="team-bio">Over 15 years of experience in petroleum trading and fuel distribution. Deep expertise in physical commodity flows, counterparty management, and deal structuring across global energy markets.</p>
-        </div>
+    <div class="market-card ds-reveal" data-quote="brent">
+      <div class="market-name">Brent Crude</div>
+      <div class="market-meta">Front month · USD/bbl</div>
+      <div class="market-price">—</div>
+      <div class="market-change"></div>
+      <div class="market-spark-wrap">
+        <svg class="market-spark" viewBox="0 0 220 64" preserveAspectRatio="none" aria-hidden="true"></svg>
+        <div class="spark-tip"><span class="spark-tip-date"></span><span class="spark-tip-val"></span></div>
       </div>
-
-      <div class="team-card ds-reveal">
-        <div class="team-photo ds-reveal ds-clip-reveal ds-grain">
-          <img src="team-pablo-gil.jpg" alt="Pablo Gil" loading="lazy" decoding="async" onerror="this.remove()">
-        </div>
-        <div class="team-info">
-          <div class="team-name">Pablo Gil</div>
-          <div class="team-role">Operations Manager</div>
-          <p class="team-bio">Background in international trade, export operations, and energy markets. Manages day-to-day operations, business development, and coordinates with international counterparties across key commodity regions.</p>
-        </div>
-      </div>
-
     </div>
+
+    <div class="market-card ds-reveal" data-quote="wti">
+      <div class="market-name">WTI Crude</div>
+      <div class="market-meta">Front month · USD/bbl</div>
+      <div class="market-price">—</div>
+      <div class="market-change"></div>
+      <div class="market-spark-wrap">
+        <svg class="market-spark" viewBox="0 0 220 64" preserveAspectRatio="none" aria-hidden="true"></svg>
+        <div class="spark-tip"><span class="spark-tip-date"></span><span class="spark-tip-val"></span></div>
+      </div>
+    </div>
+
+    <div class="market-card ds-reveal">
+      <div class="market-name">Gasoil</div>
+      <div class="market-meta">ICE Low Sulphur · USD/t</div>
+      <div class="market-tv tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+        {
+          "symbol": "ICEEUR:GAS1!",
+          "width": "100%",
+          "height": "100%",
+          "locale": "en",
+          "dateRange": "3M",
+          "colorTheme": "dark",
+          "isTransparent": true,
+          "autosize": true,
+          "largeChartUrl": "",
+          "noTimeScale": true,
+          "chartOnly": false,
+          "trendLineColor": "#7c96c8",
+          "underLineColor": "rgba(124, 150, 200, 0.18)",
+          "underLineBottomColor": "rgba(124, 150, 200, 0)"
+        }
+        </script>
+      </div>
+      <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank">Chart by TradingView</a></div>
+    </div>
+
+    <div class="market-card ds-reveal">
+      <div class="market-name">Coal API2</div>
+      <div class="market-meta">ICE Rotterdam · USD/t</div>
+      <div class="market-tv tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+        {
+          "symbol": "ICEEUR:ATW1!",
+          "width": "100%",
+          "height": "100%",
+          "locale": "en",
+          "dateRange": "3M",
+          "colorTheme": "dark",
+          "isTransparent": true,
+          "autosize": true,
+          "largeChartUrl": "",
+          "noTimeScale": true,
+          "chartOnly": false,
+          "trendLineColor": "#7c96c8",
+          "underLineColor": "rgba(124, 150, 200, 0.18)",
+          "underLineBottomColor": "rgba(124, 150, 200, 0)"
+        }
+        </script>
+      </div>
+      <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank">Chart by TradingView</a></div>
+    </div>
+
+  </div>
+  <p class="markets-note ds-reveal">Indicative delayed prices, for general reference only — not an offer, solicitation or trading advice. Brent &amp; WTI: NYMEX front-month futures via Yahoo Finance, refreshed every 20 minutes<span id="marketsUpdated"></span>. Gasoil &amp; coal: ICE Futures Europe via TradingView.</p>
   </div>
 </div>
 
@@ -1342,7 +1551,7 @@
   <div class="regions-wrapper">
     <div>
       <div class="section-tag ds-reveal ds-d1"><span class="section-num">04</span>Global Reach</div>
-      <h2 class="ds-reveal ds-d2">Markets we operate in</h2>
+      <h2 class="ds-reveal ds-d2">Where we operate</h2>
       <p class="section-intro ds-reveal ds-d3" style="margin-bottom:0">We maintain an active network of counterparties across key energy-producing and consuming regions.</p>
       <div class="regions-list ds-reveal-group">
         <div class="region-item ds-reveal" data-region="na"><div class="region-dot"></div>North America</div>
@@ -1414,13 +1623,47 @@
   </div>
 </section>
 
+<!-- TEAM -->
+<div class="full-divider"></div>
+<div id="team">
+  <div class="team-inner">
+    <div class="section-tag ds-reveal ds-d1"><span class="section-num">05</span>Our Team</div>
+    <h2 class="ds-reveal ds-d2">The people behind Horsan Brokers</h2>
+    <div class="team-grid ds-reveal-group">
+
+      <div class="team-card ds-reveal">
+        <div class="team-photo ds-reveal ds-clip-reveal ds-grain">
+          <img src="team-javier-sanchez.jpg" alt="Javier Sánchez" loading="lazy" decoding="async" onerror="this.remove()">
+        </div>
+        <div class="team-info">
+          <div class="team-name">Javier Sánchez</div>
+          <div class="team-role">Co-Founder & CEO</div>
+          <p class="team-bio">Over 15 years of experience in petroleum trading and fuel distribution. Deep expertise in physical commodity flows, counterparty management, and deal structuring across global energy markets.</p>
+        </div>
+      </div>
+
+      <div class="team-card ds-reveal">
+        <div class="team-photo ds-reveal ds-clip-reveal ds-grain">
+          <img src="team-pablo-gil.jpg" alt="Pablo Gil" loading="lazy" decoding="async" onerror="this.remove()">
+        </div>
+        <div class="team-info">
+          <div class="team-name">Pablo Gil</div>
+          <div class="team-role">Operations Manager</div>
+          <p class="team-bio">Background in international trade, export operations, and energy markets. Manages day-to-day operations, business development, and coordinates with international counterparties across key commodity regions.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <!-- COMPLIANCE — pillar texts are editable placeholders; adjust wording,
      list names and inspection agencies to the real operating procedures -->
 <div class="full-divider"></div>
 <section id="compliance">
-  <div class="section-tag ds-reveal ds-d1"><span class="section-num">05</span>Compliance</div>
+  <div class="section-tag ds-reveal ds-d1"><span class="section-num">06</span>Compliance</div>
   <h2 class="ds-reveal ds-d2">Compliance &amp; Due Diligence</h2>
-  <p class="section-intro ds-reveal ds-d3">We are committed to transparency and full regulatory compliance in every transaction we facilitate.</p>
+  <p class="section-intro ds-reveal ds-d3">We are committed to transparency and full regulatory compliance in every transaction we execute.</p>
   <div class="services-grid ds-reveal-group">
     <div class="service-card ds-reveal">
       <div class="service-icon">
@@ -1466,7 +1709,7 @@
 <div id="contact">
   <div class="contact-inner">
     <div class="contact-info">
-      <div class="section-tag ds-reveal ds-d1"><span class="section-num">06</span>Contact Us</div>
+      <div class="section-tag ds-reveal ds-d1"><span class="section-num">07</span>Contact Us</div>
       <h2 class="ds-reveal ds-d2">Let's talk business</h2>
       <p class="ds-reveal ds-d3">Whether you are a producer, refinery, or trading house — we are ready to discuss how Horsan Brokers can add value to your supply chain.</p>
       <div class="contact-details ds-reveal-group">
@@ -1573,7 +1816,7 @@
   <span class="footer-copy">© 2025 Horsan Brokers Company SL. All rights reserved.</span>
   <div class="footer-links">
     <a href="#about">About</a>
-    <a href="#services">Services</a>
+    <a href="#services">Trading</a>
     <a href="policies.html">Policies</a>
     <a href="#contact">Contact</a>
   </div>
@@ -1799,6 +2042,124 @@
       node.addEventListener('mouseleave', () => tooltip.classList.remove('is-visible'));
     });
   }
+
+  // ── MARKETS PANEL ──
+  // Quotes come from data/prices.json, produced by scripts/update_prices.py and
+  // force-pushed to the single-file `data` branch every 20 min. Reading it via
+  // raw.githubusercontent.com keeps main's history clean and avoids a Pages
+  // redeploy per tick; the copy committed on main is the first-load fallback.
+  (function () {
+    const cards = document.querySelectorAll('.market-card[data-quote]');
+    if (!cards.length) return;
+
+    const SOURCES = [
+      'https://raw.githubusercontent.com/pgil96/pgil96.github.io/refs/heads/data/data/prices.json',
+      'data/prices.json',
+    ];
+
+    const SPARK_H = 64, SPARK_PAD = 4;
+    const fmtPrice = v => v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const fmtDay = iso => new Date(iso + 'T12:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+
+    function renderQuote(card, q) {
+      card.querySelector('.market-price').textContent = '$' + fmtPrice(q.price);
+      const changeEl = card.querySelector('.market-change');
+      if (q.change != null && q.changePct != null) {
+        const up = q.change >= 0;
+        const sign = up ? '+' : '−';
+        changeEl.textContent = `${up ? '▲' : '▼'} ${sign}${fmtPrice(Math.abs(q.change))} (${sign}${Math.abs(q.changePct).toFixed(2)}%)`;
+        changeEl.classList.toggle('is-up', up);
+        changeEl.classList.toggle('is-down', !up);
+      }
+    }
+
+    function renderSpark(card, q) {
+      const wrap = card.querySelector('.market-spark-wrap');
+      const svg = card.querySelector('.market-spark');
+      const pts = q.spark;
+      if (!wrap || !svg || !pts || pts.length < 2) return;
+
+      // viewBox tracks the real width so the 2px stroke never distorts
+      const W = Math.max(wrap.clientWidth, 120), H = SPARK_H;
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
+      const vals = pts.map(p => p[1]);
+      const min = Math.min(...vals), max = Math.max(...vals);
+      const span = (max - min) || 1;
+      const x = i => 1 + (i / (pts.length - 1)) * (W - 2);
+      const y = v => SPARK_PAD + (1 - (v - min) / span) * (H - 2 * SPARK_PAD);
+
+      const line = vals.map((v, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join('');
+      const area = `${line}L${x(vals.length - 1).toFixed(1)},${H}L${x(0).toFixed(1)},${H}Z`;
+      const endX = x(vals.length - 1).toFixed(1), endY = y(vals[vals.length - 1]).toFixed(1);
+
+      svg.innerHTML =
+        `<defs><linearGradient id="spark-fill-${q.id}" x1="0" y1="0" x2="0" y2="1">` +
+        `<stop offset="0" stop-color="rgba(124,150,200,0.22)"/><stop offset="1" stop-color="rgba(124,150,200,0)"/>` +
+        `</linearGradient></defs>` +
+        `<path d="${area}" fill="url(#spark-fill-${q.id})"/>` +
+        `<path d="${line}" fill="none" stroke="#7c96c8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>` +
+        `<line class="spark-hair" x1="0" x2="0" y1="0" y2="${H}" stroke="rgba(255,255,255,0.35)" stroke-width="1" opacity="0"/>` +
+        `<circle class="spark-end" cx="${endX}" cy="${endY}" r="3" fill="#ffffff"/>` +
+        `<circle class="spark-dot" r="3.5" fill="#ffffff" opacity="0"/>`;
+
+      const tip = card.querySelector('.spark-tip');
+      const hair = svg.querySelector('.spark-hair');
+      const dot = svg.querySelector('.spark-dot');
+      wrap.onmousemove = e => {
+        const rect = wrap.getBoundingClientRect();
+        const i = Math.min(Math.max(Math.round(((e.clientX - rect.left) / rect.width) * (pts.length - 1)), 0), pts.length - 1);
+        const px = x(i), py = y(vals[i]);
+        hair.setAttribute('x1', px); hair.setAttribute('x2', px); hair.setAttribute('opacity', '1');
+        dot.setAttribute('cx', px); dot.setAttribute('cy', py); dot.setAttribute('opacity', '1');
+        tip.querySelector('.spark-tip-date').textContent = fmtDay(pts[i][0]);
+        tip.querySelector('.spark-tip-val').textContent = '$' + fmtPrice(vals[i]);
+        tip.style.left = Math.min(Math.max((px / W) * 100, 15), 85) + '%';
+        tip.classList.add('is-visible');
+      };
+      wrap.onmouseleave = () => {
+        hair.setAttribute('opacity', '0');
+        dot.setAttribute('opacity', '0');
+        tip.classList.remove('is-visible');
+      };
+    }
+
+    let marketData = null;
+
+    function renderAll() {
+      if (!marketData) return;
+      cards.forEach(card => {
+        const q = marketData.quotes.find(q => q.id === card.dataset.quote);
+        if (!q) return;
+        renderQuote(card, q);
+        renderSpark(card, q);
+      });
+      const updEl = document.getElementById('marketsUpdated');
+      if (updEl && marketData.updated) {
+        const d = new Date(marketData.updated);
+        updEl.textContent = ' (last update ' +
+          d.toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) + ')';
+      }
+    }
+
+    (async () => {
+      for (const url of SOURCES) {
+        try {
+          const res = await fetch(url, { cache: 'no-store' });
+          if (!res.ok) continue;
+          marketData = await res.json();
+          break;
+        } catch { /* fall through to the next source */ }
+      }
+      renderAll();
+    })();
+
+    let sparkResizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(sparkResizeTimer);
+      sparkResizeTimer = setTimeout(renderAll, 150);
+    });
+  })();
 </script>
 </body>
 </html>
