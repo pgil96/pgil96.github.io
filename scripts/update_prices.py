@@ -5,8 +5,9 @@ Run by .github/workflows/update-prices.yml on a schedule; the result is
 force-pushed to the single-file `data` branch, which the Markets section on
 index.html reads via raw.githubusercontent.com. Stdlib only — no pip installs.
 
-ICE-licensed products (LS Gasoil, API2 coal) are not available from any free
-API; those two cards on the site use TradingView embeds instead.
+ICE-licensed products (LS Gasoil, API2/Newcastle coal) are unavailable from
+every free channel — APIs and TradingView embeds alike ("This symbol is only
+available on TradingView") — hence the NYMEX-only panel.
 """
 import datetime
 import json
@@ -19,6 +20,8 @@ import urllib.request
 INSTRUMENTS = [
     {"id": "brent", "symbol": "BZ=F", "name": "Brent Crude", "exchange": "NYMEX", "unit": "USD/bbl"},
     {"id": "wti", "symbol": "CL=F", "name": "WTI Crude", "exchange": "NYMEX", "unit": "USD/bbl"},
+    {"id": "diesel", "symbol": "HO=F", "name": "Diesel ULSD", "exchange": "NYMEX", "unit": "USD/gal"},
+    {"id": "gasoline", "symbol": "RB=F", "name": "Gasoline RBOB", "exchange": "NYMEX", "unit": "USD/gal"},
 ]
 
 CHART_URL = "https://query{host}.finance.yahoo.com/v8/finance/chart/{symbol}?range=3mo&interval=1d"
@@ -73,8 +76,12 @@ def build_quote(spec):
     change = round(price - prev_close, 4) if prev_close else None
     change_pct = round((price - prev_close) / prev_close * 100, 2) if prev_close else None
 
+    # Sub-$10 contracts (ULSD/RBOB in USD/gal) quote in 4 decimals; 2 is enough
+    # above that. The front-end applies the same threshold when formatting.
+    decimals = 2 if price >= 10 else 4
+
     spark = [
-        [datetime.datetime.fromtimestamp(ts, datetime.timezone.utc).date().isoformat(), round(close, 2)]
+        [datetime.datetime.fromtimestamp(ts, datetime.timezone.utc).date().isoformat(), round(close, decimals)]
         for ts, close in points
     ]
 
@@ -85,8 +92,8 @@ def build_quote(spec):
         "exchange": spec["exchange"],
         "unit": spec["unit"],
         "currency": meta.get("currency", "USD"),
-        "price": round(price, 2),
-        "prevClose": round(prev_close, 2) if prev_close else None,
+        "price": round(price, decimals),
+        "prevClose": round(prev_close, decimals) if prev_close else None,
         "change": change,
         "changePct": change_pct,
         "marketTime": market_time,

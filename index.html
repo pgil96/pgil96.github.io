@@ -792,25 +792,6 @@
     .spark-tip-date { font-family: var(--ds-font-body); font-size: 11px; color: var(--ds-text-muted-dim); }
     .spark-tip-val { font-family: var(--ds-font-body); font-size: 12.5px; font-weight: 600; color: var(--ds-white); }
 
-    /* TradingView-embedded cards (ICE-licensed products) */
-    .market-tv {
-      flex: 1 1 auto;
-      min-height: 176px;
-      margin: 0 -10px;   /* widget has internal padding; pull to optical edge */
-    }
-
-    .market-tv .tradingview-widget-container__widget { height: 100%; }
-
-    .tradingview-widget-copyright {
-      font-family: var(--ds-font-body);
-      font-size: 10.5px;
-      text-align: right;
-      margin-top: 6px;
-    }
-
-    .tradingview-widget-copyright a { color: var(--ds-text-muted-dim); text-decoration: none; }
-    .tradingview-widget-copyright a:hover { color: var(--ds-blue-light); }
-
     .markets-note {
       font-family: var(--ds-font-body);
       font-size: 12.5px;
@@ -1452,16 +1433,16 @@
   </div>
 </section>
 
-<!-- MARKETS — Brent & WTI cards are rendered from data/prices.json (refreshed
-     every 20 min by .github/workflows/update-prices.yml); Gasoil & Coal are
-     ICE-licensed products with no free data feed, so those two cards embed
-     TradingView's mini widget themed to match. -->
+<!-- MARKETS — all four cards render from data/prices.json (refreshed every
+     20 min by .github/workflows/update-prices.yml). NYMEX benchmarks only:
+     ICE products (LS Gasoil, API2/Newcastle coal) are licensed and blocked
+     from every free channel, embeds included. -->
 <div class="full-divider"></div>
 <div id="markets">
   <div class="markets-inner">
   <div class="section-tag ds-reveal ds-d1"><span class="section-num">03</span>Markets</div>
   <h2 class="ds-reveal ds-d2">Benchmark prices</h2>
-  <p class="section-intro ds-reveal ds-d3">Delayed reference prices for the benchmarks behind the products we trade — crude oil, middle distillates and coal.</p>
+  <p class="section-intro ds-reveal ds-d3">Delayed reference prices for the benchmarks behind the products we trade — crude oil and refined products.</p>
   <div class="markets-grid ds-reveal-group">
 
     <div class="market-card ds-reveal" data-quote="brent">
@@ -1486,62 +1467,30 @@
       </div>
     </div>
 
-    <div class="market-card ds-reveal">
-      <div class="market-name">Gasoil</div>
-      <div class="market-meta">ICE Low Sulphur · USD/t</div>
-      <div class="market-tv tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-        {
-          "symbol": "ICEEUR:GAS1!",
-          "width": "100%",
-          "height": "100%",
-          "locale": "en",
-          "dateRange": "3M",
-          "colorTheme": "dark",
-          "isTransparent": true,
-          "autosize": true,
-          "largeChartUrl": "",
-          "noTimeScale": true,
-          "chartOnly": false,
-          "trendLineColor": "#7c96c8",
-          "underLineColor": "rgba(124, 150, 200, 0.18)",
-          "underLineBottomColor": "rgba(124, 150, 200, 0)"
-        }
-        </script>
+    <div class="market-card ds-reveal" data-quote="diesel">
+      <div class="market-name">Diesel ULSD</div>
+      <div class="market-meta">Front month · USD/gal</div>
+      <div class="market-price">—</div>
+      <div class="market-change"></div>
+      <div class="market-spark-wrap">
+        <svg class="market-spark" viewBox="0 0 220 64" preserveAspectRatio="none" aria-hidden="true"></svg>
+        <div class="spark-tip"><span class="spark-tip-date"></span><span class="spark-tip-val"></span></div>
       </div>
-      <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank">Chart by TradingView</a></div>
     </div>
 
-    <div class="market-card ds-reveal">
-      <div class="market-name">Coal API2</div>
-      <div class="market-meta">ICE Rotterdam · USD/t</div>
-      <div class="market-tv tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-        {
-          "symbol": "ICEEUR:ATW1!",
-          "width": "100%",
-          "height": "100%",
-          "locale": "en",
-          "dateRange": "3M",
-          "colorTheme": "dark",
-          "isTransparent": true,
-          "autosize": true,
-          "largeChartUrl": "",
-          "noTimeScale": true,
-          "chartOnly": false,
-          "trendLineColor": "#7c96c8",
-          "underLineColor": "rgba(124, 150, 200, 0.18)",
-          "underLineBottomColor": "rgba(124, 150, 200, 0)"
-        }
-        </script>
+    <div class="market-card ds-reveal" data-quote="gasoline">
+      <div class="market-name">Gasoline RBOB</div>
+      <div class="market-meta">Front month · USD/gal</div>
+      <div class="market-price">—</div>
+      <div class="market-change"></div>
+      <div class="market-spark-wrap">
+        <svg class="market-spark" viewBox="0 0 220 64" preserveAspectRatio="none" aria-hidden="true"></svg>
+        <div class="spark-tip"><span class="spark-tip-date"></span><span class="spark-tip-val"></span></div>
       </div>
-      <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank">Chart by TradingView</a></div>
     </div>
 
   </div>
-  <p class="markets-note ds-reveal">Indicative delayed prices, for general reference only — not an offer, solicitation or trading advice. Brent &amp; WTI: NYMEX front-month futures via Yahoo Finance, refreshed every 20 minutes<span id="marketsUpdated"></span>. Gasoil &amp; coal: ICE Futures Europe via TradingView.</p>
+  <p class="markets-note ds-reveal">Indicative delayed prices, for general reference only — not an offer, solicitation or trading advice. NYMEX front-month futures via Yahoo Finance, refreshed every 20 minutes<span id="marketsUpdated"></span>.</p>
   </div>
 </div>
 
@@ -2058,16 +2007,20 @@
     ];
 
     const SPARK_H = 64, SPARK_PAD = 4;
-    const fmtPrice = v => v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    // Sub-$10 contracts (ULSD/RBOB in USD/gal) quote in 4 decimals — same
+    // threshold the updater script applies when rounding.
+    const decimalsFor = q => (q.price >= 10 ? 2 : 4);
+    const fmtPrice = (v, dec) => v.toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
     const fmtDay = iso => new Date(iso + 'T12:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 
     function renderQuote(card, q) {
-      card.querySelector('.market-price').textContent = '$' + fmtPrice(q.price);
+      const dec = decimalsFor(q);
+      card.querySelector('.market-price').textContent = '$' + fmtPrice(q.price, dec);
       const changeEl = card.querySelector('.market-change');
       if (q.change != null && q.changePct != null) {
         const up = q.change >= 0;
         const sign = up ? '+' : '−';
-        changeEl.textContent = `${up ? '▲' : '▼'} ${sign}${fmtPrice(Math.abs(q.change))} (${sign}${Math.abs(q.changePct).toFixed(2)}%)`;
+        changeEl.textContent = `${up ? '▲' : '▼'} ${sign}${fmtPrice(Math.abs(q.change), dec)} (${sign}${Math.abs(q.changePct).toFixed(2)}%)`;
         changeEl.classList.toggle('is-up', up);
         changeEl.classList.toggle('is-down', !up);
       }
@@ -2113,7 +2066,7 @@
         hair.setAttribute('x1', px); hair.setAttribute('x2', px); hair.setAttribute('opacity', '1');
         dot.setAttribute('cx', px); dot.setAttribute('cy', py); dot.setAttribute('opacity', '1');
         tip.querySelector('.spark-tip-date').textContent = fmtDay(pts[i][0]);
-        tip.querySelector('.spark-tip-val').textContent = '$' + fmtPrice(vals[i]);
+        tip.querySelector('.spark-tip-val').textContent = '$' + fmtPrice(vals[i], decimalsFor(q));
         tip.style.left = Math.min(Math.max((px / W) * 100, 15), 85) + '%';
         tip.classList.add('is-visible');
       };
