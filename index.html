@@ -802,12 +802,116 @@
       margin-top: 32px;
     }
 
+    /* ── Markets: headlines block (data/news.json) ── */
+    .news-head {
+      font-family: var(--ds-font-display);
+      font-size: 24px;
+      font-weight: 500;
+      letter-spacing: -0.4px;
+      color: var(--ds-white);
+      margin-top: 72px;
+    }
+
+    .news-intro {
+      font-family: var(--ds-font-body);
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--ds-text-muted);
+      max-width: 560px;
+      line-height: 1.7;
+      margin: 12px 0 36px;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      align-items: stretch;
+      gap: 24px;
+    }
+
+    .news-card {
+      background: var(--ds-navy-deep);
+      border: 1px solid var(--ds-line);
+      border-radius: 2px;
+      padding: 24px 24px 20px;
+      min-height: 208px;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: var(--ds-white);
+      transition: border-color 0.35s var(--ds-ease), transform 0.35s var(--ds-ease), box-shadow 0.35s var(--ds-ease);
+    }
+
+    .news-card:hover, .news-card:focus-visible {
+      border-color: var(--ds-blue);
+      transform: translateY(-8px);
+      box-shadow: 0 24px 48px rgba(3,10,20,0.45);
+      outline: none;
+    }
+
+    .news-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .news-tag {
+      font-family: var(--ds-font-body);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--ds-blue-light);
+      border: 1px solid rgba(124,150,200,0.35);
+      border-radius: 2px;
+      padding: 3px 8px;
+    }
+
+    .news-time {
+      font-family: var(--ds-font-body);
+      font-size: 11px;
+      color: var(--ds-text-muted-dim);
+    }
+
+    .news-title {
+      font-family: var(--ds-font-display);
+      font-size: 16.5px;
+      font-weight: 500;
+      line-height: 1.45;
+    }
+
+    .news-foot {
+      margin-top: auto;
+      padding-top: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .news-src {
+      font-family: var(--ds-font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--ds-text-muted-dim);
+    }
+
+    .news-arrow {
+      color: var(--ds-blue-light);
+      font-size: 15px;
+      transition: transform 0.35s var(--ds-ease);
+    }
+
+    .news-card:hover .news-arrow { transform: translateX(4px); }
+
     @media (max-width: 1100px) {
-      .markets-grid { grid-template-columns: repeat(2, 1fr); }
+      .markets-grid, .news-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 560px) {
-      .markets-grid { grid-template-columns: 1fr; }
+      .markets-grid, .news-grid { grid-template-columns: 1fr; }
     }
 
     /* ── TEAM (design system) ── */
@@ -1433,10 +1537,10 @@
   </div>
 </section>
 
-<!-- MARKETS — all four cards render from data/prices.json (refreshed every
-     20 min by .github/workflows/update-prices.yml). NYMEX benchmarks only:
-     ICE products (LS Gasoil, API2/Newcastle coal) are licensed and blocked
-     from every free channel, embeds included. -->
+<!-- MARKETS — price cards render from data/prices.json and the headlines
+     from data/news.json (both refreshed by .github/workflows/update-prices.yml).
+     NYMEX benchmarks only: ICE products (LS Gasoil, API2/Newcastle coal) are
+     licensed and blocked from every free channel, embeds included. -->
 <div class="full-divider"></div>
 <div id="markets">
   <div class="markets-inner">
@@ -1490,7 +1594,36 @@
     </div>
 
   </div>
-  <p class="markets-note ds-reveal">Indicative delayed prices, for general reference only — not an offer, solicitation or trading advice. NYMEX front-month futures via Yahoo Finance, refreshed every 20 minutes<span id="marketsUpdated"></span>.</p>
+
+  <!-- Headlines render from data/news.json (same pipeline as prices:
+       scripts/update_news.py, pushed to the `data` branch by the workflow).
+       2 crude + 2 middle-distillate stories from public RSS feeds. -->
+  <h3 class="news-head ds-reveal">Today&rsquo;s headlines</h3>
+  <p class="news-intro ds-reveal">The day&rsquo;s key stories on crude oil and middle distillates, curated from leading energy and financial media.</p>
+  <div class="news-grid ds-reveal-group">
+    <a class="news-card ds-reveal" data-news-slot target="_blank" rel="noopener">
+      <div class="news-top"><span class="news-tag">&nbsp;</span><span class="news-time"></span></div>
+      <div class="news-title">—</div>
+      <div class="news-foot"><span class="news-src"></span><span class="news-arrow">→</span></div>
+    </a>
+    <a class="news-card ds-reveal" data-news-slot target="_blank" rel="noopener">
+      <div class="news-top"><span class="news-tag">&nbsp;</span><span class="news-time"></span></div>
+      <div class="news-title">—</div>
+      <div class="news-foot"><span class="news-src"></span><span class="news-arrow">→</span></div>
+    </a>
+    <a class="news-card ds-reveal" data-news-slot target="_blank" rel="noopener">
+      <div class="news-top"><span class="news-tag">&nbsp;</span><span class="news-time"></span></div>
+      <div class="news-title">—</div>
+      <div class="news-foot"><span class="news-src"></span><span class="news-arrow">→</span></div>
+    </a>
+    <a class="news-card ds-reveal" data-news-slot target="_blank" rel="noopener">
+      <div class="news-top"><span class="news-tag">&nbsp;</span><span class="news-time"></span></div>
+      <div class="news-title">—</div>
+      <div class="news-foot"><span class="news-src"></span><span class="news-arrow">→</span></div>
+    </a>
+  </div>
+
+  <p class="markets-note ds-reveal">Indicative delayed prices, for general reference only — not an offer, solicitation or trading advice. NYMEX front-month futures via Yahoo Finance, refreshed every 20 minutes<span id="marketsUpdated"></span>. Headlines are curated automatically from public news feeds and link to the original articles at their source.</p>
   </div>
 </div>
 
@@ -2112,6 +2245,51 @@
       clearTimeout(sparkResizeTimer);
       sparkResizeTimer = setTimeout(renderAll, 150);
     });
+  })();
+
+  // ── MARKETS HEADLINES ──
+  // data/news.json comes from scripts/update_news.py through the same
+  // data-branch pipeline as prices.json; the main copy is the fallback.
+  (function () {
+    const slots = document.querySelectorAll('.news-card[data-news-slot]');
+    if (!slots.length) return;
+
+    const SOURCES = [
+      'https://raw.githubusercontent.com/pgil96/pgil96.github.io/refs/heads/data/data/news.json',
+      'data/news.json',
+    ];
+
+    const TOPIC_LABELS = { crude: 'Crude oil', distillates: 'Distillates' };
+
+    function timeAgo(iso) {
+      const hours = (Date.now() - new Date(iso).getTime()) / 36e5;
+      if (hours < 1) return 'Just now';
+      if (hours < 24) return Math.floor(hours) + 'h ago';
+      if (hours < 48) return 'Yesterday';
+      return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    }
+
+    (async () => {
+      let data = null;
+      for (const url of SOURCES) {
+        try {
+          const res = await fetch(url, { cache: 'no-store' });
+          if (!res.ok) continue;
+          data = await res.json();
+          break;
+        } catch { /* fall through to the next source */ }
+      }
+      if (!data || !Array.isArray(data.articles)) return;
+      slots.forEach((card, i) => {
+        const art = data.articles[i];
+        if (!art) { card.style.display = 'none'; return; }
+        card.href = art.url;
+        card.querySelector('.news-tag').textContent = TOPIC_LABELS[art.topic] || 'Markets';
+        card.querySelector('.news-time').textContent = timeAgo(art.published);
+        card.querySelector('.news-title').textContent = art.title;
+        card.querySelector('.news-src').textContent = art.source;
+      });
+    })();
   })();
 </script>
 </body>

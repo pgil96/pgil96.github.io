@@ -1,9 +1,9 @@
-# Refreshes the Markets panel data (data/prices.json) every 20 minutes on
-# weekdays. The file is force-pushed as the single commit of the `data`
-# branch — never to main — so the repo history stays clean and GitHub Pages
-# is not redeployed on every tick; index.html fetches the branch through
-# raw.githubusercontent.com. The copy of data/prices.json committed on main
-# is only the first-load / fallback snapshot.
+# Refreshes the Markets panel data (data/prices.json + data/news.json) every
+# 20 minutes on weekdays. Both files are force-pushed as the single commit of
+# the `data` branch — never to main — so the repo history stays clean and
+# GitHub Pages is not redeployed on every tick; index.html fetches the branch
+# through raw.githubusercontent.com. The copies committed on main are only
+# the first-load / fallback snapshots.
 #
 # Note: GitHub pauses scheduled workflows in repos with no activity for
 # 60 days; if the panel ever freezes, re-enable it from the Actions tab.
@@ -30,12 +30,18 @@ jobs:
       - name: Fetch latest prices
         run: python3 scripts/update_prices.py
 
+      # If the feeds hiccup, publish the checked-out (main) snapshot of
+      # news.json rather than fail the price update too.
+      - name: Fetch latest headlines
+        continue-on-error: true
+        run: python3 scripts/update_news.py
+
       - name: Publish to data branch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout --orphan data
           git reset
-          git add -f data/prices.json
+          git add -f data/prices.json data/news.json
           git commit -m "data: market prices $(date -u +'%Y-%m-%dT%H:%MZ')"
           git push -f origin data
