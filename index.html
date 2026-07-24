@@ -1406,6 +1406,29 @@
     @media (max-width: 900px), (prefers-reduced-motion: reduce) {
       .ds-parallax { transform: none !important; }
     }
+
+    /* ── SAHARA "registered counterparty" credential (Compliance section) ── */
+    .sahara-label {
+      font-family: var(--ds-font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--ds-text-muted-dim);
+    }
+    .sahara-logo-img { width: auto; display: block; }
+
+    .sahara-compliance {
+      margin-top: 48px;
+      padding-top: 40px;
+      border-top: 1px solid var(--ds-line);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      text-align: center;
+    }
+    .sahara-compliance .sahara-logo-img { height: 40px; }
   </style>
 </head>
 <body>
@@ -1782,6 +1805,12 @@
       <h3>Regulatory Adherence</h3>
       <p>Operations conducted in accordance with the applicable laws and trade regulations of every jurisdiction we work in.</p>
     </div>
+  </div>
+
+  <!-- SAHARA CREDENTIAL — OPTION 1: inside Compliance -->
+  <div class="sahara-compliance ds-reveal">
+    <span class="sahara-label">Registered &amp; approved counterparty</span>
+    <img src="sahara-logo.png" alt="Sahara Group / Sahara Energy" class="sahara-logo-img">
   </div>
 </section>
 
